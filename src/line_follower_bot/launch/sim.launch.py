@@ -13,7 +13,7 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('line_follower_bot')
     ros_gz_sim_share = get_package_share_directory('ros_gz_sim')
 
-    urdf_file = os.path.join(pkg_share, 'urdf', 'line_follower_bot.urdf')
+    urdf_file = os.path.join(pkg_share, 'urdf', 'robot.urdf')
     with open(urdf_file, 'r', encoding='utf-8') as f:
         robot_description = f.read()
 

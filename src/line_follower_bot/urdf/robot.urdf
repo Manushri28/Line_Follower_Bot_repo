@@ -132,7 +132,7 @@
   <link name="camera_link">
     <visual>
       <geometry>
-        <box size="0.01 0.03 0.02"/>
+        <box size="0.006 0.012 0.009"/>
       </geometry>
       <material name="cam_red">
         <color rgba="0.8 0.1 0.1 1"/>
@@ -146,7 +146,7 @@
   <joint name="camera_joint" type="fixed">
     <parent link="flat_chasis"/>
     <child link="camera_link"/>
-    <origin xyz="0.089 0.003 0.02" rpy="0 0.55 0"/>
+    <origin xyz="0.089 0.003 -0.021" rpy="0 0.55 0"/>
   </joint>
   <gazebo reference="left_axle">
     <mu1>1.0</mu1>

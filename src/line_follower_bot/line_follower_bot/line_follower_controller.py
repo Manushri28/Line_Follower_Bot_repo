@@ -1,6 +1,6 @@
 from math import atan2, cos, pi, sin
 
-OPEN_END_DELAY, TURNAROUND_MARGIN, RECOVERY_TURN, RECOVERY_SWEEP = 1.5, 0.15, 0.4, 1.5
+OPEN_END_DELAY, TURNAROUND_MARGIN, RECOVERY_TURN = 1.5, 0.15, 0.4
 
 
 class LineFollowerController:
@@ -41,10 +41,6 @@ class LineFollowerController:
         self.lost_time += max(0.0, dt)
         if not self.open_end_recovery:
             if self.turnaround_yaw is None: self.turnaround_yaw = self.yaw
-            delta = self.yaw - self.turnaround_yaw
-            angle = atan2(sin(delta), cos(delta))
-            turn_progress = self.recovery_direction * angle
-            if turn_progress >= RECOVERY_SWEEP: return 0.0, 0.0
             return 0.0, self.recovery_direction * min(self.max_angular, RECOVERY_TURN)
         if self.lost_time < OPEN_END_DELAY:
             return self.speed, self.recovery_direction * min(self.max_angular, RECOVERY_TURN)
