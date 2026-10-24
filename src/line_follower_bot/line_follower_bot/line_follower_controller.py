@@ -1,6 +1,7 @@
 from math import atan2, cos, pi, sin
 
 OPEN_END_DELAY, TURNAROUND_MARGIN, RECOVERY_TURN = 1.5, 0.15, 0.4
+LEVEL_SLOWDOWN, ERROR_SLOWDOWN, MAX_ANGULAR_ACCEL = 0.6, 0.5, 4.0
 
 
 class LineFollowerController:
@@ -10,8 +11,9 @@ class LineFollowerController:
         self.preview_gain, self.open_end_recovery = preview_gain, open_end_recovery
         self.previous_error, self.integral, self.recovery_direction = 0.0, 0.0, 1.0
         self.yaw, self.lost_time, self.turnaround_yaw, self.turned_around = 0.0, 0.0, None, False
+        self.previous_angular = 0.0
 
-    def follow(self, offsets, dt):
+    def follow(self, offsets, dt, level=0):
         self.lost_time, self.turnaround_yaw, self.turned_around = 0.0, None, False
         total_weight = sum(weight for _, weight, _ in offsets)
         weighted_error = sum(value * weight for value, weight, _ in offsets) / total_weight
@@ -22,9 +24,14 @@ class LineFollowerController:
         derivative = max(-3.0, min(3.0, (error - self.previous_error) / dt)) if dt > 0 else 0.0
         turn = -(self.kp * error + self.ki * self.integral + self.kd * derivative)
         angular = max(-self.max_angular, min(self.max_angular, turn))
+        if dt > 0:
+            step = MAX_ANGULAR_ACCEL * dt
+            angular = max(self.previous_angular - step, min(self.previous_angular + step, angular))
+        self.previous_angular = angular
         self.previous_error = error
         if abs(angular) > 0.05: self.recovery_direction = 1.0 if angular > 0 else -1.0
-        return self.speed, angular
+        speed = self.speed * (1 - LEVEL_SLOWDOWN * level / 3) * (1 - ERROR_SLOWDOWN * min(abs(error), 1))
+        return speed, angular
 
     def update_odometry(self, message):
         q = message.pose.pose.orientation

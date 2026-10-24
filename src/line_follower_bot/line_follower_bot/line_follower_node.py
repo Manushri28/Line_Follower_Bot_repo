@@ -14,10 +14,10 @@ class LineFollowerNode(Node):
         self.publisher = self.create_publisher(Twist, 'cmd_vel', 10)
         self.create_subscription(Float32MultiArray, 'line_offsets', self.follow_line, 10)
         self.controller = LineFollowerController(
-            speed=self.declare_parameter('max_linear', 0.2).value,
-            kp=self.declare_parameter('kp', 0.45).value,
+            speed=self.declare_parameter('max_linear', 0.1).value,
+            kp=self.declare_parameter('kp', 0.50).value,
             ki=self.declare_parameter('ki', 0.02).value,
-            kd=self.declare_parameter('kd', 0.04).value,
+            kd=self.declare_parameter('kd', 0.08).value,
             max_angular=self.declare_parameter('max_angular', 0.35).value,
             weights=self.declare_parameter('offset_weights', [0.1, 0.25, 0.65]).value,
             preview_gain=self.declare_parameter('preview_gain', 0.8).value,
@@ -41,7 +41,7 @@ class LineFollowerNode(Node):
             if isfinite(value)
         ]
         if offsets and (not self.line_lost or self.controller.can_reacquire(offsets)):
-            command.linear.x, command.angular.z = self.controller.follow(offsets, dt)
+            command.linear.x, command.angular.z = self.controller.follow(offsets, dt, level=message.data[3] if len(message.data) > 3 else 0.0)
             self.line_lost = False
         else:
             if not self.line_lost:

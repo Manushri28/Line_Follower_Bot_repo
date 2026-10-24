@@ -1,10 +1,10 @@
 line_follower_node:
   ros__parameters:
-    max_linear: 0.2
+    max_linear: 0.1
     turning_speed: 0.17
     max_angular: 1.8
-    kp: 2.6
+    kp: 0.50
     ki: 0.02
-    kd: 0.05
+    kd: 0.08
     offset_weights: [0.25, 0.35, 0.4]
     preview_gain: 0.6
