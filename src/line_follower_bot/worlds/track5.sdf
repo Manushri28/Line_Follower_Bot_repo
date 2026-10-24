@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <world name="track5_world">
+    <physics name="1ms" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <light type="directional" name="sun">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0 0 0 1</specular>
+      <direction>0 0 -1</direction>
+    </light>
+    <model name="track5">
+      <static>true</static>
+      <pose>0 0 -0.005 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>5.625 10 0.01</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>5.625 10 0.01</size></box></geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <pbr><metal>
+              <albedo_map>/home/manushri_kumbhakar/line_follower_ws/src/line_follower_bot/worlds/track5.png</albedo_map>
+              <metalness>0.0</metalness>
+              <roughness>1.0</roughness>
+            </metal></pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

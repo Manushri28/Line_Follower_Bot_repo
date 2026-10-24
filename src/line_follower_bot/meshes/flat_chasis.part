@@ -1,0 +1,13 @@
+{
+    "configuration": "default",
+    "documentId": "dbc31585e048a810d4607e82",
+    "documentMicroversion": "62ba54fad936855d56ab1512",
+    "elementId": "be1ee452166a343ce3167f67",
+    "fullConfiguration": "default",
+    "id": "MGZRAgpmt8IWNFgSW",
+    "isStandardContent": false,
+    "name": "flat_chasis <1>",
+    "partId": "JLD",
+    "suppressed": false,
+    "type": "Part"
+}
