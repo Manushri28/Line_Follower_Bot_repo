@@ -18,7 +18,7 @@ def generate_launch_description():
         robot_description = f.read()
 
     params_file = os.path.join(pkg_share, 'config', 'line_follower_params.yaml')
-    default_world = os.path.join(pkg_share, 'worlds', 'hexagon_0_5.sdf')
+    default_world = os.path.join(pkg_share, 'worlds', 'final_grading.sdf')
 
     world = LaunchConfiguration('world')
     x = LaunchConfiguration('x')
